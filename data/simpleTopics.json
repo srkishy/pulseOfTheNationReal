@@ -1,0 +1,64 @@
+
+            [
+                {
+                   "title":{
+                      "query":"A",
+                      "exploreLink":"/trends/explore?q=Barcelona+vs+Napoli&date=now+7-d&geo=US"
+                   },
+                   "formattedTraffic":"200K+",
+                   "image":{
+                      "newsUrl":"https://www.sportingnews.com/us/soccer/news/barcelona-vs-napoli-live-score-highlights-europa-league/gmyrmsfvshpgvmnkbla6m0dg",
+                      "source":"Sporting News",
+                      "imageUrl":"https://t0.gstatic.com/images?q=tbn:ANd9GcSvY5XQt3GSbo3cDJhJEn2YgBhYJQ9_u-lTsNKn4cNNqJ7exHZihfpEY9U931sk71ljWJuVTvyN"
+                   }
+                },
+                {
+                   "title":{
+                      "query":"B",
+                      "exploreLink":"/trends/explore?q=Uncharted&date=now+7-d&geo=US"
+                   },
+                   "formattedTraffic":"200K+",
+                   "image":{
+                      "newsUrl":"https://www.nytimes.com/2022/02/17/movies/uncharted-review.html",
+                      "source":"The New York Times",
+                      "imageUrl":"https://t3.gstatic.com/images?q=tbn:ANd9GcQ-vRG1ubNhst3WgCyhsBI8G70NxtTBPJ26303igyz_OpCyRjpxBtRDpGT6NGUhvzUD4xcdvMcP"
+                   }
+                },
+                {
+                   "title":{
+                      "query":"C",
+                      "exploreLink":"/trends/explore?q=Oakland+Hills+Country+Club&date=now+7-d&geo=US"
+                   },
+                   "formattedTraffic":"200K+",
+                   "image":{
+                      "newsUrl":"https://wdet.org/2022/02/17/fire-burns-at-oakland-hills-country-club/",
+                      "source":"WDET",
+                      "imageUrl":"https://t0.gstatic.com/images?q=tbn:ANd9GcQF5C4l-WafD4TokiwCs7szXrLnVTftc7GTS16NIfXl0kr_gNxyLGUrr44H8VZlt9rTA0cdJ3ys"
+                   }
+                },
+                {
+                   "title":{
+                      "query":"D",
+                      "exploreLink":"/trends/explore?q=Stranger+Things+season+4&date=now+7-d&geo=US"
+                   },
+                   "formattedTraffic":"200K+",
+                   "image":{
+                      "newsUrl":"https://www.inverse.com/entertainment/stranger-things-season-4-release-date-netflix",
+                      "source":"Inverse",
+                      "imageUrl":"https://t3.gstatic.com/images?q=tbn:ANd9GcTJjP1qbeA3b4T63DgjYBP8R1Sf9G3jc1Q3KvvBMhqkZH1I6MDHC_4k95CG7cO3k9rUcmbawo4Y"
+                   }
+                },
+                {
+                   "title":{
+                      "query":"E",
+                      "exploreLink":"/trends/explore?q=Europa+League&date=now+7-d&geo=US"
+                   },
+                   "formattedTraffic":"200K+",
+                   "image":{
+                      "newsUrl":"https://www.sportingnews.com/us/soccer/news/why-barcelona-in-europa-league-explain-how-uefa-tournament/xad8oxtrjyiuycskzksqetkw",
+                      "source":"Sporting News",
+                      "imageUrl":"https://t1.gstatic.com/images?q=tbn:ANd9GcT0sRWf0qrr1MPuMz3naMJ4phZTm_BXA6TVlCYsS8XzwKP91YP5bFVxmQn4h3ANrMvFbiTP-jra"
+                   }
+                }
+             ]
+ 

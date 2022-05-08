@@ -1,0 +1,42 @@
+[
+    {
+        "id": "qKey",
+        "key": "Q"
+    },
+    {
+        "id": "wKey",
+        "key": "W"
+    },
+    {
+        "id": "eKey",
+        "key": "E"
+    },
+    {
+        "id": "rKey",
+        "key": "R"
+    },
+    {
+        "id": "tKey",
+        "key": "T"
+    },
+    {
+        "id": "yKey",
+        "key": "Y"
+    },
+    {
+        "id": "uKey",
+        "key": "U"
+    },
+    {
+        "id": "iKey",
+        "key": "I"
+    },
+    {
+        "id": "oKey",
+        "key": "O"
+    },
+    {
+        "id": "pKey",
+        "key": "P"
+    }
+]
