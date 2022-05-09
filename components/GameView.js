@@ -12,18 +12,6 @@ import { AntDesign } from '@expo/vector-icons';
 import {
   AdMobBanner,
 } from 'expo-ads-admob';
-import {
-  REACT_APP_AD_MOB_IOS_1,
-  REACT_APP_AD_MOB_IOS_2,
-  REACT_APP_AD_MOB_IOS_3,
-  REACT_APP_AD_MOB_IOS_4,
-  REACT_APP_AD_MOB_IOS_5,
-  REACT_APP_AD_MOB_ANDROID_1,
-  REACT_APP_AD_MOB_ANDROID_2,
-  REACT_APP_AD_MOB_ANDROID_3,
-  REACT_APP_AD_MOB_ANDROID_4,
-  REACT_APP_AD_MOB_ANDROID_5
-} from '@env';
 import PuzzleEntry from './PuzzleEntry';
 import GameKeyboard from './GameKeyboard';
 import GuessEntry from './GuessEntry';
@@ -35,15 +23,15 @@ class GameView extends React.Component {
     const { index } = this.props;
     switch (index) {
       case 0:
-        return REACT_APP_AD_MOB_IOS_1;
+        return process.env.REACT_APP_AD_MOB_IOS_1;
       case 1:
-        return REACT_APP_AD_MOB_IOS_2;
+        return process.env.REACT_APP_AD_MOB_IOS_2;
       case 2:
-        return REACT_APP_AD_MOB_IOS_3;
+        return process.env.REACT_APP_AD_MOB_IOS_3;
       case 3:
-        return REACT_APP_AD_MOB_IOS_4;
+        return process.env.REACT_APP_AD_MOB_IOS_4;
       case 4:
-        return REACT_APP_AD_MOB_IOS_5;
+        return process.env.REACT_APP_AD_MOB_IOS_5;
       default:
         return '';
     }
@@ -53,15 +41,15 @@ class GameView extends React.Component {
     const { index } = this.props;
     switch (index) {
       case 0:
-        return REACT_APP_AD_MOB_ANDROID_1;
+        return process.env.REACT_APP_AD_MOB_ANDROID_1;
       case 1:
-        return REACT_APP_AD_MOB_ANDROID_2;
+        return process.env.REACT_APP_AD_MOB_ANDROID_2;
       case 2:
-        return REACT_APP_AD_MOB_ANDROID_3;
+        return process.env.REACT_APP_AD_MOB_ANDROID_3;
       case 3:
-        return REACT_APP_AD_MOB_ANDROID_4;
+        return process.env.REACT_APP_AD_MOB_ANDROID_4;
       case 4:
-        return REACT_APP_AD_MOB_ANDROID_5;
+        return process.env.REACT_APP_AD_MOB_ANDROID_5;
       default:
         return '';
     }

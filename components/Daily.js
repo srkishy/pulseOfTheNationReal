@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { LinearGradient } from 'expo-linear-gradient';
-import { REACT_APP_TRENDS_URL } from '@env';
 import GameView from './GameView';
 import GameOverScreen from './GameOverScreen';
 
@@ -100,7 +99,7 @@ class Daily extends React.Component {
 
   async getTopics(yesterday, geo) {
     try {
-      const response = await fetch(REACT_APP_TRENDS_URL, {
+      const response = await fetch(process.env.REACT_APP_TRENDS_URL, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

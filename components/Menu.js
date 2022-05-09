@@ -14,16 +14,15 @@ import { Picker } from '@react-native-picker/picker';
 import {
   AdMobBanner,
 } from 'expo-ads-admob';
-import { REACT_APP_SCORE_URL, REACT_APP_AD_MOB_IOS_MENU, REACT_APP_AD_MOB_ANDROID_MENU } from '@env';
 import { LinearGradient } from 'expo-linear-gradient';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 class Menu extends React.Component {
   adUnitID = Platform.select({
     // https://developers.google.com/admob/ios/test-ads
-    ios: REACT_APP_AD_MOB_IOS_MENU,
+    ios: process.env.REACT_APP_AD_MOB_IOS_MENU,
     // https://developers.google.com/admob/android/test-ads
-    android: REACT_APP_AD_MOB_ANDROID_MENU,
+    android: process.env.REACT_APP_AD_MOB_ANDROID_MENU,
   });
 
   constructor(props) {
@@ -90,7 +89,7 @@ class Menu extends React.Component {
       const yesterdayString = `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`;
       yesterday.setDate(yesterday.getDate() - 1);
       const twoDaysAgoString = `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`;
-      const currentResponse = await fetch(REACT_APP_SCORE_URL, {
+      const currentResponse = await fetch(process.env.REACT_APP_SCORE_URL, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

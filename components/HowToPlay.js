@@ -7,16 +7,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {
   AdMobBanner,
 } from 'expo-ads-admob';
-import {
-  REACT_APP_AD_MOB_IOS_HOWTO,
-  REACT_APP_AD_MOB_ANDROID_HOWTO,
-} from '@env';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 class HowToPlay extends React.Component {
   adUnitID = Platform.select({
-    ios: REACT_APP_AD_MOB_IOS_HOWTO,
-    android: REACT_APP_AD_MOB_ANDROID_HOWTO,
+    ios: process.env.REACT_APP_AD_MOB_IOS_HOWTO,
+    android: process.env.REACT_APP_AD_MOB_ANDROID_HOWTO,
   });
 
   constructor(props) {
