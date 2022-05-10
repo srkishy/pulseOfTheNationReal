@@ -9,6 +9,7 @@ import {
   Dimensions
 } from 'react-native';
 import PropTypes from 'prop-types';
+import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import {
@@ -20,9 +21,9 @@ import { RFValue } from 'react-native-responsive-fontsize';
 class Menu extends React.Component {
   adUnitID = Platform.select({
     // https://developers.google.com/admob/ios/test-ads
-    ios: process.env.REACT_APP_AD_MOB_IOS_MENU,
+    ios: Constants.manifest.extra.REACT_APP_AD_MOB_IOS_MENU,
     // https://developers.google.com/admob/android/test-ads
-    android: process.env.REACT_APP_AD_MOB_ANDROID_MENU,
+    android: Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_MENU,
   });
 
   constructor(props) {
@@ -89,7 +90,7 @@ class Menu extends React.Component {
       const yesterdayString = `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`;
       yesterday.setDate(yesterday.getDate() - 1);
       const twoDaysAgoString = `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`;
-      const currentResponse = await fetch(process.env.REACT_APP_SCORE_URL, {
+      const currentResponse = await fetch(Constants.manifest.extra.REACT_APP_SCORE_URL, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

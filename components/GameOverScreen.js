@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from 'expo-constants';
 import * as Clipboard from 'expo-clipboard';
 // import Toast from 'react-native-toast-message';
 import Toast from 'react-native-root-toast';
@@ -34,9 +35,9 @@ class GameOverScreen extends React.Component {
 
   adUnitID = Platform.select({
     // https://developers.google.com/admob/ios/test-ads
-    ios: process.env.REACT_APP_AD_MOB_IOS_GAMEOVER,
+    ios: Constants.manifest.extra.REACT_APP_AD_MOB_IOS_GAMEOVER,
     // https://developers.google.com/admob/android/test-ads
-    android: process.env.REACT_APP_AD_MOB_ANDROID_GAMEOVER,
+    android: Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_GAMEOVER,
   });
 
   constructor(props) {
@@ -52,7 +53,7 @@ class GameOverScreen extends React.Component {
     const todayScore = await AsyncStorage.getItem(scoreKey);
     if (!todayScore || todayScore === null) {
       try {
-        await fetch(process.env.REACT_APP_SCORE_URL, {
+        await fetch(Constants.manifest.extra.REACT_APP_SCORE_URL, {
           method: 'POST',
           headers: {
             Accept: 'application/json',

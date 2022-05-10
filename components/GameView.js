@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 import {
   AdMobBanner,
 } from 'expo-ads-admob';
@@ -23,15 +24,15 @@ class GameView extends React.Component {
     const { index } = this.props;
     switch (index) {
       case 0:
-        return process.env.REACT_APP_AD_MOB_IOS_1;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_IOS_1;
       case 1:
-        return process.env.REACT_APP_AD_MOB_IOS_2;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_IOS_2;
       case 2:
-        return process.env.REACT_APP_AD_MOB_IOS_3;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_IOS_3;
       case 3:
-        return process.env.REACT_APP_AD_MOB_IOS_4;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_IOS_4;
       case 4:
-        return process.env.REACT_APP_AD_MOB_IOS_5;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_IOS_5;
       default:
         return '';
     }
@@ -41,15 +42,15 @@ class GameView extends React.Component {
     const { index } = this.props;
     switch (index) {
       case 0:
-        return process.env.REACT_APP_AD_MOB_ANDROID_1;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_1;
       case 1:
-        return process.env.REACT_APP_AD_MOB_ANDROID_2;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_2;
       case 2:
-        return process.env.REACT_APP_AD_MOB_ANDROID_3;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_3;
       case 3:
-        return process.env.REACT_APP_AD_MOB_ANDROID_4;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_4;
       case 4:
-        return process.env.REACT_APP_AD_MOB_ANDROID_5;
+        return Constants.manifest.extra.REACT_APP_AD_MOB_ANDROID_5;
       default:
         return '';
     }

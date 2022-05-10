@@ -11,6 +11,7 @@ import {
 
 import * as Haptics from 'expo-haptics';
 import PropTypes from 'prop-types';
+import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -99,7 +100,7 @@ class Daily extends React.Component {
 
   async getTopics(yesterday, geo) {
     try {
-      const response = await fetch(process.env.REACT_APP_TRENDS_URL, {
+      const response = await fetch(Constants.manifest.extra.REACT_APP_TRENDS_URL, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
