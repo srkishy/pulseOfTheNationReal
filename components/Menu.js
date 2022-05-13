@@ -17,6 +17,7 @@ import {
 } from 'expo-ads-admob';
 import { LinearGradient } from 'expo-linear-gradient';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { getTrackingPermissionsAsync, requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
 class Menu extends React.Component {
   adUnitID = Platform.select({
@@ -40,6 +41,10 @@ class Menu extends React.Component {
   }
 
   async componentDidMount() {
+    const { granted } = await requestTrackingPermissionsAsync();
+    if (granted) {
+      // Your app is authorized to track the user or their device
+    }
     // this.viewStorage();
     // await setTestDeviceIDAsync('EMULATOR'); //  REMOVE FOR PROD
     await this.updateScore();

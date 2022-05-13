@@ -25,9 +25,17 @@ export default {
   expo: {
     name: 'pulseOfTheNationReal',
     slug: 'pulseOfTheNationReal',
-    version: '1.1.9',
+    version: '1.2.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
+    plugins: [
+      [
+        'expo-tracking-transparency',
+        {
+          userTrackingPermission: 'This identifier will be used to deliver personalized ads to you.',
+        }
+      ]
+    ],
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
@@ -45,7 +53,7 @@ export default {
         googleMobileAdsAppId: 'ca-app-pub-1180387175519228~1781854911'
       },
       bundleIdentifier: 'com.srkishy.pulseOfTheNationReal',
-      buildNumber: '1.1.9'
+      buildNumber: '1.2.0'
     },
     android: {
       adaptiveIcon: {
@@ -56,7 +64,7 @@ export default {
         googleMobileAdsAppId: 'ca-app-pub-1180387175519228~5652833078'
       },
       package: 'com.srkishy.pulseOfTheNationReal',
-      versionCode: 14
+      versionCode: 15
     },
     web: {
       favicon: './assets/favicon.png'

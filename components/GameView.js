@@ -5,11 +5,14 @@ import {
   Image,
   Pressable,
   Platform,
-  Dimensions
+  Dimensions,
+  Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
 import Constants from 'expo-constants';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   AdMobBanner,
 } from 'expo-ads-admob';
@@ -68,6 +71,9 @@ class GameView extends React.Component {
     super(props);
     this.state = {
       showAds: true,
+      showTut1: true,
+      showTut2: false,
+      showTut3: false,
     };
   }
 
@@ -111,8 +117,12 @@ class GameView extends React.Component {
       onLeft,
       onRight,
       onBackspace,
+      showTutorial,
+      onTutorialFinish
     } = this.props;
-    const { showAds } = this.state;
+    const {
+      showAds, showTut1, showTut2, showTut3
+    } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.puzzleContainer}>
@@ -139,23 +149,41 @@ class GameView extends React.Component {
                   </Pressable>
                 </View>
               )}
-
-            <View style={styles.imageContainer}>
-              <Image
-                style={styles.logo}
-                source={{ uri: image }}
-              />
-            </View>
-
+            <Tooltip
+              isVisible={showTut2}
+              content={
+                (
+                  <Text>
+                    Use the image as a clue (It&apos;s blurry on purpose to not be too easy!)
+                  </Text>
+              )
+            }
+              placement="top"
+              onClose={() => this.setState({ showTut2: false, showTut3: true })}
+            >
+              <View style={styles.imageContainer}>
+                <Image
+                  style={styles.logo}
+                  source={{ uri: image }}
+                />
+              </View>
+            </Tooltip>
               {index < 4 && (
-                <View style={styles.transparentView}>
-                  <Pressable
-                    disabled
-                    onPress={() => onRight()}
-                  >
-                    <AntDesign name="right" size={24} color="black" />
-                  </Pressable>
-                </View>
+                <Tooltip
+                  isVisible={showTutorial && showTut1}
+                  content={<Text>Swipe to navigate between trends</Text>}
+                  placement="top"
+                  onClose={() => this.setState({ showTut1: false, showTut2: true })}
+                >
+                  <View style={styles.transparentView}>
+                    <Pressable
+                      disabled
+                      onPress={() => onRight()}
+                    >
+                      <AntDesign name="right" size={24} color="black" />
+                    </Pressable>
+                  </View>
+                </Tooltip>
               )}
 
           </View>
@@ -163,14 +191,31 @@ class GameView extends React.Component {
 
         </View>
         <View style={styles.entryContainer}>
-          <GuessEntry
-            solveMode={solveMode}
-            topic={topic}
-            onGuess={this.onGuess}
-            wordGuessed={wordGuessed}
-            onSubmitGuess={this.onSubmitGuess}
-            onBackspace={onBackspace}
-          />
+          <Tooltip
+            isVisible={showTut3}
+            content={
+              (
+                <Text>
+                  Guess letters as hints, then hit solve to attempt to submit a final answer!
+                </Text>
+              )
+            }
+            placement="top"
+            onClose={() => {
+              this.setState({ showTut3: false });
+              AsyncStorage.setItem('showTutorial', 'false');
+              onTutorialFinish();
+            }}
+          >
+            <GuessEntry
+              solveMode={solveMode}
+              topic={topic}
+              onGuess={this.onGuess}
+              wordGuessed={wordGuessed}
+              onSubmitGuess={this.onSubmitGuess}
+              onBackspace={onBackspace}
+            />
+          </Tooltip>
           {!solveMode
           && (
           <GameKeyboard
@@ -269,6 +314,8 @@ GameView.propTypes = {
   onLeft: PropTypes.func,
   // eslint-disable-next-line react/require-default-props
   onRight: PropTypes.func,
+  showTutorial: PropTypes.bool.isRequired,
+  onTutorialFinish: PropTypes.func.isRequired,
 };
 
 export default GameView;

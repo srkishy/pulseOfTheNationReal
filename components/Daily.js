@@ -83,6 +83,8 @@ class Daily extends React.Component {
   }
 
   async componentDidMount() {
+    const showTutorial = await AsyncStorage.getItem('showTutorial') === null;
+    this.setState({ showTutorial });
     const region = await AsyncStorage.getItem('region');
     const today = new Date();
     const yesterday = new Date(today);
@@ -323,6 +325,14 @@ class Daily extends React.Component {
     }
   };
 
+  onTutorialFinish = () => {
+    this.setState({
+      showTutorial: false,
+    }, () => {
+      this.saveData();
+    });
+  }
+
   makeGameView = (
     {
       topics,
@@ -331,6 +341,7 @@ class Daily extends React.Component {
       wordGuessed, newestLetter,
       solveMode,
       guessString,
+      showTutorial
     }
   ) => (
     <GameView
@@ -350,6 +361,8 @@ class Daily extends React.Component {
       onLeft={this.onLeft}
       onRight={this.onRight}
       index={gameIndex}
+      showTutorial={showTutorial}
+      onTutorialFinish={this.onTutorialFinish}
     />
   );
 
