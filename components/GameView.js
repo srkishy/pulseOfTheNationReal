@@ -169,21 +169,21 @@ class GameView extends React.Component {
               </View>
             </Tooltip>
               {index < 4 && (
-                <Tooltip
-                  isVisible={showTutorial && showTut1}
-                  content={<Text>Swipe to navigate between trends</Text>}
-                  placement="top"
-                  onClose={() => this.setState({ showTut1: false, showTut2: true })}
-                >
-                  <View style={styles.transparentView}>
+                <View style={styles.transparentView}>
+                  <Tooltip
+                    isVisible={showTutorial && showTut1}
+                    content={<Text>Swipe to navigate between trends</Text>}
+                    placement="top"
+                    onClose={() => this.setState({ showTut1: false, showTut2: true })}
+                  >
                     <Pressable
                       disabled
                       onPress={() => onRight()}
                     >
                       <AntDesign name="right" size={24} color="black" />
                     </Pressable>
-                  </View>
-                </Tooltip>
+                  </Tooltip>
+                </View>
               )}
 
           </View>

@@ -25,7 +25,7 @@ export default {
   expo: {
     name: 'pulseOfTheNationReal',
     slug: 'pulseOfTheNationReal',
-    version: '1.2.0',
+    version: '1.2.1',
     orientation: 'portrait',
     icon: './assets/icon.png',
     plugins: [
@@ -53,7 +53,7 @@ export default {
         googleMobileAdsAppId: 'ca-app-pub-1180387175519228~1781854911'
       },
       bundleIdentifier: 'com.srkishy.pulseOfTheNationReal',
-      buildNumber: '1.2.0'
+      buildNumber: '1.2.1'
     },
     android: {
       adaptiveIcon: {
@@ -64,7 +64,7 @@ export default {
         googleMobileAdsAppId: 'ca-app-pub-1180387175519228~5652833078'
       },
       package: 'com.srkishy.pulseOfTheNationReal',
-      versionCode: 15
+      versionCode: 16
     },
     web: {
       favicon: './assets/favicon.png'
