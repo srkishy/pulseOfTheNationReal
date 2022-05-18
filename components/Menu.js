@@ -6,7 +6,7 @@ import {
   Pressable,
   ActivityIndicator,
   Platform,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
@@ -17,7 +17,6 @@ import {
 } from 'expo-ads-admob';
 import { LinearGradient } from 'expo-linear-gradient';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { getTrackingPermissionsAsync, requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
 class Menu extends React.Component {
   adUnitID = Platform.select({
@@ -41,10 +40,6 @@ class Menu extends React.Component {
   }
 
   async componentDidMount() {
-    const { granted } = await requestTrackingPermissionsAsync();
-    if (granted) {
-      // Your app is authorized to track the user or their device
-    }
     // this.viewStorage();
     // await setTestDeviceIDAsync('EMULATOR'); //  REMOVE FOR PROD
     await this.updateScore();
@@ -123,6 +118,14 @@ class Menu extends React.Component {
         loading: false,
       });
     } catch (error) {
+      this.setState({
+        averageScore: -1,
+        yesterdayAverageScore: -1,
+        todaysScore: -1,
+        yesterdaysScore: -1,
+        region: 'US',
+        loading: false,
+      });
       console.log(`Unable to retrieve score due to: ${error}`);
     }
   }
