@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
+import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import {
@@ -209,7 +210,7 @@ class Menu extends React.Component {
                   </View>
                 </View>
               </View>
-              <View>
+              <View style={styles.rowContainer}>
                 <Pressable
                   style={[
                     styles.button,
@@ -219,16 +220,28 @@ class Menu extends React.Component {
                 >
                   <Text style={styles.buttonText}>Start game!</Text>
                 </Pressable>
+                <Pressable
+                  style={{ justifyContent: 'center', paddingLeft: 10 }}
+                  onPress={() => navigation.navigate('HowToPlay')}
+                >
+                  <Feather name="help-circle" size={24} color="black" />
+                </Pressable>
               </View>
-              <View>
+              <View style={styles.rowContainer}>
                 <Pressable
                   style={[
                     styles.button,
                     styles.enabled,
                   ]}
-                  onPress={() => navigation.navigate('HowToPlay')}
+                  onPress={() => navigation.navigate('AutoComplete')}
                 >
-                  <Text style={styles.buttonText}>How to play</Text>
+                  <Text style={styles.buttonText}>Start Auto Complete Game!</Text>
+                </Pressable>
+                <Pressable
+                  style={{ justifyContent: 'center', paddingLeft: 10 }}
+                  onPress={() => navigation.navigate('HowToPlayAutoComplete')}
+                >
+                  <Feather name="help-circle" size={24} color="black" />
                 </Pressable>
               </View>
             </View>

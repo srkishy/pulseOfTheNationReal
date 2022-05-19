@@ -48,40 +48,45 @@ class GameOverScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const { date, region, score } = this.props;
-    const scoreKey = `${date}-${region}-score`;
-    const todayScore = await AsyncStorage.getItem(scoreKey);
-    if (!todayScore || todayScore === null) {
-      try {
-        await fetch(Constants.manifest.extra.REACT_APP_SCORE_URL, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            region,
-            date,
-            score,
-            method: 'POST'
-          })
-        });
-      } catch (error) {
-        console.log(`Unable to post score due to: ${error}`);
+    const { postScore } = this.props;
+    if (postScore) {
+      const { date, region, score } = this.props;
+      const scoreKey = `${date}-${region}-score`;
+      const todayScore = await AsyncStorage.getItem(scoreKey);
+      if (!todayScore || todayScore === null) {
+        try {
+          await fetch(Constants.manifest.extra.REACT_APP_SCORE_URL, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              region,
+              date,
+              score,
+              method: 'POST'
+            })
+          });
+        } catch (error) {
+          console.log(`Unable to post score due to: ${error}`);
+        }
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const twoDaysAgo = new Date(yesterday);
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 1);
+        const twoDaysAgoString = `${twoDaysAgo.getFullYear()}-${twoDaysAgo.getMonth() + 1}-${twoDaysAgo.getDate()}`;
+        const streak = parseInt(await AsyncStorage.getItem(`${twoDaysAgoString}-${region}-streak`), 10);
+        if (streak) {
+          AsyncStorage.setItem(`${date}-${region}-streak`, JSON.stringify(streak + 1));
+        } else {
+          AsyncStorage.setItem(`${date}-${region}-streak`, JSON.stringify(1));
+        }
+        AsyncStorage.setItem(scoreKey, `${score}`);
       }
-      const today = new Date();
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
-      const twoDaysAgo = new Date(yesterday);
-      twoDaysAgo.setDate(twoDaysAgo.getDate() - 1);
-      const twoDaysAgoString = `${twoDaysAgo.getFullYear()}-${twoDaysAgo.getMonth() + 1}-${twoDaysAgo.getDate()}`;
-      const streak = parseInt(await AsyncStorage.getItem(`${twoDaysAgoString}-${region}-streak`), 10);
-      if (streak) {
-        AsyncStorage.setItem(`${date}-${region}-streak`, JSON.stringify(streak + 1));
-      } else {
-        AsyncStorage.setItem(`${date}-${region}-streak`, JSON.stringify(1));
-      }
-      AsyncStorage.setItem(scoreKey, `${score}`);
+    } else {
+      AsyncStorage.removeItem('currentSeed');
     }
 
     Animated.spring(this.viewXPos1, {
@@ -126,7 +131,9 @@ class GameOverScreen extends React.Component {
   };
 
   render() {
-    const { topics, score, navigation } = this.props;
+    const {
+      topics, score, navigation, postScore,
+    } = this.props;
     const { showAds } = this.state;
     return (
       <LinearGradient
@@ -150,7 +157,7 @@ class GameOverScreen extends React.Component {
           >
             <Text style={styles.text}>
               1:
-              {topics[0].title.query}
+              {topics[0].title?.query || topics[0].suggestion?.at_data}
             </Text>
           </Animated.View>
           <Animated.View style={[
@@ -164,7 +171,7 @@ class GameOverScreen extends React.Component {
           >
             <Text style={styles.text}>
               2:
-              {topics[1].title.query}
+              {topics[1].title?.query || topics[1].suggestion?.at_data}
             </Text>
           </Animated.View>
           <Animated.View style={[
@@ -178,7 +185,7 @@ class GameOverScreen extends React.Component {
           >
             <Text style={styles.text}>
               3:
-              {topics[2].title.query}
+              {topics[2].title?.query || topics[2].suggestion?.at_data}
             </Text>
           </Animated.View>
           <Animated.View style={[
@@ -192,7 +199,7 @@ class GameOverScreen extends React.Component {
           >
             <Text style={styles.text}>
               4:
-              {topics[3].title.query}
+              {topics[3].title?.query || topics[3].suggestion?.at_data}
             </Text>
           </Animated.View>
           <Animated.View style={[
@@ -206,16 +213,19 @@ class GameOverScreen extends React.Component {
           >
             <Text style={styles.text}>
               5:
-              {topics[4].title.query}
+              {topics[4].title?.query || topics[4].suggestion?.at_data}
             </Text>
           </Animated.View>
 
+          {postScore
+          && (
           <Pressable
             style={styles.button}
             onPress={async () => this.copyToClipboard()}
           >
             <Text style={styles.buttonText}>Share!</Text>
           </Pressable>
+          )}
 
           <Pressable
             style={styles.button}
@@ -278,6 +288,10 @@ const styles = StyleSheet.create({
   }
 });
 
+GameOverScreen.defaultProps = {
+  postScore: true,
+};
+
 GameOverScreen.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   topics: PropTypes.array.isRequired,
@@ -286,6 +300,7 @@ GameOverScreen.propTypes = {
   score: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
   region: PropTypes.string.isRequired,
+  postScore: PropTypes.bool,
 };
 
 export default GameOverScreen;

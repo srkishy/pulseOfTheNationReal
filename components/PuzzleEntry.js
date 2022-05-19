@@ -105,7 +105,8 @@ class PuzzleEntry extends React.Component {
     const wordSpots = [];
     words.forEach((word, index) => {
       wordSpots.push(
-        <View style={styles.wordContainer} key={`view ${word} ${topic}`}>
+        // eslint-disable-next-line react/no-array-index-key
+        <View style={styles.wordContainer} key={`${index} view ${word} ${topic}`}>
           {this.makeLetters(word, index)}
           {index !== words.length - 1 && this.makeLetters(' ')}
         </View>

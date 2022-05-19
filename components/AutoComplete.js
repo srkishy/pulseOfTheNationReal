@@ -11,14 +11,15 @@ import {
 
 import * as Haptics from 'expo-haptics';
 import PropTypes from 'prop-types';
-import Constants from 'expo-constants';
+import { XMLParser } from 'fast-xml-parser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { LinearGradient } from 'expo-linear-gradient';
 import GameView from './GameView';
 import GameOverScreen from './GameOverScreen';
+import autoCompleteSeeds from '../data/autoComplete.json';
 
-class Daily extends React.Component {
+class AutoComplete extends React.Component {
   viewXPos = new Animated.Value(0);
 
   viewYPos = new Animated.Value(0);
@@ -83,47 +84,45 @@ class Daily extends React.Component {
   }
 
   async componentDidMount() {
-    const showTutorial = await AsyncStorage.getItem('showTutorial') === null;
-    this.setState({ showTutorial });
-    const region = await AsyncStorage.getItem('region');
+    const seed = await AsyncStorage.getItem('currentSeed');
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    await AsyncStorage.getItem(`${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}-${region}`).then((value) => {
-      this.setState(JSON.parse(value));
-    });
-    const { topics } = this.state;
-    if (!topics || topics.length <= 0 || !topics[0].title) {
-      await this.getTopics(yesterday, region);
-    } else {
+    if (seed) {
+      await AsyncStorage.getItem(`${seed}-${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`).then((value) => {
+        this.setState(JSON.parse(value));
+      });
       this.setState({ isLoading: false });
+      return;
     }
+    await this.getTopics(yesterday, seed);
   }
 
-  async getTopics(yesterday, geo) {
+  async getTopics(yesterday) {
     try {
-      const response = await fetch(Constants.manifest.extra.REACT_APP_TRENDS_URL, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          region: geo,
-          date: `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`
-        })
-      });
-      const json = await response.json();
-      if (json[0].title.query) {
-        const region = await AsyncStorage.getItem('region');
-        const newTopics = json;
-        this.setState({
-          topics: newTopics,
-          date: `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`,
-          region,
+      const { topics } = autoCompleteSeeds;
+      const index = Math.floor(Math.random() * ((topics.length - 1) - 0 + 1));
+      const seed = topics[index];
+      await AsyncStorage.setItem('currentSeed', seed);
+      fetch(`https://clients1.google.com/complete/search?hl=en&output=toolbar&q=${encodeURIComponent(seed)}`, {
+        method: 'GET',
+      })
+        .then((response) => response.text())
+        .then((textResponse) => {
+          const options = {
+            ignoreAttributes: false,
+            attributeNamePrefix: 'at_'
+          };
+          const parser = new XMLParser(options);
+          const obj = parser.parse(textResponse);
+          console.log(obj);
+          this.setState({
+            seed,
+            topics: obj.toplevel.CompleteSuggestion,
+            date: `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`,
+          });
+          this.saveData();
         });
-        this.saveData();
-      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -190,7 +189,7 @@ class Daily extends React.Component {
     const {
       guessString, topics, gameIndex, wordGuessed, score
     } = this.state;
-    if (guessString === topics[gameIndex].title.query.toUpperCase()) {
+    if (guessString === topics[gameIndex].suggestion.at_data.toUpperCase()) {
       const newWordGuessed = [...wordGuessed];
       newWordGuessed[index] = true;
       this.setState({
@@ -242,7 +241,7 @@ class Daily extends React.Component {
     const newNewestLetter = [...newestLetter];
     newNewestLetter[index] = letter;
 
-    const topic = topics[index].title.query.toUpperCase();
+    const topic = topics[index].suggestion.at_data.toUpperCase();
     let tempWordGuessed = true;
     for (let i = 0; i < topic.length; i += 1) {
       if (topic.charAt(i) !== ' ' && !newLettersGuessed[index].includes(topic.charAt(i))) {
@@ -274,7 +273,7 @@ class Daily extends React.Component {
     const newMode = !solveMode;
     let currentGuessString = '';
     if (newMode) {
-      const currentTopic = topics[index].title.query.toUpperCase();
+      const currentTopic = topics[index].suggestion.at_data.toUpperCase();
       const currentLettersGuessed = lettersGuessed[index];
 
       for (let i = 0; i < currentTopic.length; i += 1) {
@@ -341,16 +340,16 @@ class Daily extends React.Component {
       wordGuessed, newestLetter,
       solveMode,
       guessString,
-      showTutorial
+      showTutorial,
+      seed
     }
   ) => (
     <GameView
-      topic={topics[gameIndex].title.query.toUpperCase()}
+      topic={topics[gameIndex].suggestion.at_data.toUpperCase()}
       updateScore={this.updateScore}
       lettersGuessed={lettersGuessed[gameIndex]}
       wordGuessed={wordGuessed[gameIndex]}
       newestLetter={newestLetter[gameIndex]}
-      image={topics[gameIndex].image.imageUrl}
       onPress={this.onPress}
       onGuess={this.onGuess}
       onSubmitGuess={this.onSubmitGuess}
@@ -363,12 +362,13 @@ class Daily extends React.Component {
       index={gameIndex}
       showTutorial={showTutorial}
       onTutorialFinish={this.onTutorialFinish}
+      seed={seed}
     />
   );
 
   saveData() {
-    const { date, region } = this.state;
-    AsyncStorage.setItem(`${date}-${region}`, JSON.stringify(this.state));
+    const { date, seed } = this.state;
+    AsyncStorage.setItem(`${seed}-${date}`, JSON.stringify(this.state));
   }
 
   render() {
@@ -429,6 +429,7 @@ class Daily extends React.Component {
                 topics={topics}
                 score={score}
                 date={date}
+                postScore={false}
               />
             </View>
             )}
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   },
 });
 
-Daily.propTypes = {
+AutoComplete.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
 };
@@ -487,4 +488,4 @@ function isLetter(str) {
   return str.length === 1 && str.match(/[a-z]/i);
 }
 
-export default Daily;
+export default AutoComplete;
