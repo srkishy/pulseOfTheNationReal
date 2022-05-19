@@ -118,7 +118,8 @@ class GameView extends React.Component {
       onRight,
       onBackspace,
       showTutorial,
-      onTutorialFinish
+      onTutorialFinish,
+      seed
     } = this.props;
     const {
       showAds, showTut1, showTut2, showTut3
@@ -187,6 +188,40 @@ class GameView extends React.Component {
               )}
 
           </View>
+          )}
+          {!image
+          && (
+            <>
+              <View styles={styles.container}>
+                <View>
+                  <Text style={{ textAlign: 'center' }}>
+                    {`Starts with ${seed.toUpperCase()}`}
+                  </Text>
+                </View>
+              </View>
+              <View style={[styles.rowContainer]}>
+                {index > 0 && (
+                  <View style={[styles.transparentView, styles.leftArrow]}>
+                    <Pressable
+                      disabled
+                      onPress={() => onLeft()}
+                    >
+                      <AntDesign name="left" size={24} color="black" />
+                    </Pressable>
+                  </View>
+                )}
+                {index < 4 && (
+                  <View style={[styles.transparentView, styles.rightArrow]}>
+                    <Pressable
+                      disabled
+                      onPress={() => onRight()}
+                    >
+                      <AntDesign name="right" size={24} color="black" />
+                    </Pressable>
+                  </View>
+                )}
+              </View>
+            </>
           )}
 
         </View>
@@ -289,8 +324,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     margin: 5,
+  },
+  rightArrow: {
+    justifyContent: 'flex-end',
+  },
+  leftArrow: {
+    justifyContent: 'flex-start',
   }
 });
+
+GameView.defaultProps = {
+  seed: null,
+};
 
 GameView.propTypes = {
   topic: PropTypes.string.isRequired,
@@ -316,6 +361,7 @@ GameView.propTypes = {
   onRight: PropTypes.func,
   showTutorial: PropTypes.bool.isRequired,
   onTutorialFinish: PropTypes.func.isRequired,
+  seed: PropTypes.string,
 };
 
 export default GameView;
