@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
+import Toast from 'react-native-root-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import {
@@ -18,6 +19,7 @@ import {
 } from 'expo-ads-admob';
 import { LinearGradient } from 'expo-linear-gradient';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { debounce } from 'lodash';
 
 class Menu extends React.Component {
   adUnitID = Platform.select({
@@ -43,6 +45,7 @@ class Menu extends React.Component {
   async componentDidMount() {
     // this.viewStorage();
     // await setTestDeviceIDAsync('EMULATOR'); //  REMOVE FOR PROD
+    this.updateRegionDebouncer = debounce(this.updateRegion, 100);
     await this.updateScore();
   }
 
@@ -130,6 +133,15 @@ class Menu extends React.Component {
       console.log(`Unable to retrieve score due to: ${error}`);
     }
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  refreshAutoCompleteSeed = () => {
+    Toast.show('Auto complete game refreshed!', {
+      duration: 1000,
+      position: 0,
+    });
+    AsyncStorage.removeItem('currentSeed');
+  };
 
   render() {
     const {
@@ -229,6 +241,12 @@ class Menu extends React.Component {
               </View>
               <View style={styles.rowContainer}>
                 <Pressable
+                  style={{ justifyContent: 'center', paddingLeft: 10 }}
+                  onPress={() => this.refreshAutoCompleteSeed()}
+                >
+                  <FontAwesome name="refresh" size={24} color="black" />
+                </Pressable>
+                <Pressable
                   style={[
                     styles.button,
                     styles.enabled,
@@ -257,7 +275,7 @@ class Menu extends React.Component {
             <Picker
               style={styles.picker}
               selectedValue={region}
-              onValueChange={(itemValue) => this.updateRegion(itemValue)}
+              onValueChange={(itemValue) => this.updateRegionDebouncer(itemValue)}
             >
               <Picker.Item label="US" value="US" />
               <Picker.Item label="CAN" value="CA" />

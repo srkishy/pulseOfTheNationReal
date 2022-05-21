@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import {
   StyleSheet,
@@ -9,10 +10,10 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 class SolveEntry extends React.Component {
   // eslint-disable-next-line class-methods-use-this
-  makeLetters = (word) => {
+  makeLetters = (word, index, topic) => {
     const letterSpots = [];
     for (let i = 0; i < word.length; i += 1) {
-      letterSpots.push(<Text key={i} style={styles.text}>{word.charAt(i)}</Text>);
+      letterSpots.push(<Text key={`${i} ${word} ${index} ${topic}`} style={styles.text}>{word.charAt(i)}</Text>);
     }
     return letterSpots;
   };
@@ -23,8 +24,8 @@ class SolveEntry extends React.Component {
     const wordSpots = [];
     words.forEach((word, index) => {
       wordSpots.push(
-        <View style={styles.wordContainer} key={`solveView ${word} ${topic}`}>
-          {this.makeLetters(word)}
+        <View style={styles.wordContainer} key={`${index} solveView ${word} ${topic}`}>
+          {this.makeLetters(word, index, topic)}
           {index !== words.length - 1 && this.makeLetters(' ')}
         </View>
       );

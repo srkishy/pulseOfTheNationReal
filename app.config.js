@@ -25,7 +25,7 @@ export default {
   expo: {
     name: 'pulseOfTheNationReal',
     slug: 'pulseOfTheNationReal',
-    version: '1.2.4',
+    version: '1.2.6',
     orientation: 'portrait',
     icon: './assets/icon.png',
     plugins: [
@@ -56,7 +56,7 @@ export default {
         NSUserTrackingUsageDescription: 'This identifier will be used to deliver personalized ads to you.'
       },
       bundleIdentifier: 'com.srkishy.pulseOfTheNationReal',
-      buildNumber: '1.2.4'
+      buildNumber: '1.2.6'
     },
     android: {
       adaptiveIcon: {
@@ -67,7 +67,7 @@ export default {
         googleMobileAdsAppId: 'ca-app-pub-1180387175519228~5652833078'
       },
       package: 'com.srkishy.pulseOfTheNationReal',
-      versionCode: 16
+      versionCode: 18
     },
     web: {
       favicon: './assets/favicon.png'
